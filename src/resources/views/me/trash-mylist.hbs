@@ -1,0 +1,94 @@
+<a href="/me">Trở lại danh sách phát</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Tên bài hát</th>
+      <th scope="col">Mô tả</th>
+      <th scope="col">Thời gian</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {{#each course}}
+      <tr>
+        <th scope="row">{{sum @index 1}}</th>
+        <td>{{this.name}}</td>
+        <td>{{this.descript}}</td>
+        <td>{{this.createdAt}}</td>
+        <td>
+          <button
+            data-bs-rs={{this._id}}
+            style="text-decoration: none;"
+            id='btn-restore'
+          >Khôi phục 
+          </button>
+        </td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-id={{this._id}}
+            data-bs-toggle="modal" 
+            data-bs-target="#exampleModal"
+          >Xoá vĩnh viễn</button>
+        </td>
+
+      </tr>
+    {{/each}}
+
+  </tbody>
+</table>
+<!-- Button trigger modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-body">
+           <div class="mb-3">
+            <p>Bạn có muốn xoá vĩnh viễn không</p>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnDeleted" class="btn btn-danger">Xoá</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<form name="form-deleted" method="post"></form>
+
+<form name="form-restore" method="post"></form>
+
+<script>
+
+  var recipient
+  formRestore = document.forms['form-restore']
+  formDeleted = document.forms['form-deleted']
+
+  const restoreIds = document.querySelectorAll('#btn-restore')
+  var exampleModal = document.getElementById('exampleModal')
+  exampleModal.addEventListener('show.bs.modal', function (event) {
+  // Button that triggered the modal
+  var button = event.relatedTarget
+  // Extract info from data-bs-* attributes
+  recipient = button.getAttribute('data-bs-id')
+
+  })
+  btnDeleted.onclick = function(e){
+    formDeleted.action = '/list/' + recipient + '/?_method=DELETE'
+    formDeleted.submit()
+  }
+
+for(let i = 0; i < restoreIds.length; i++) {
+    restoreIds[i].addEventListener("click" , function(){
+        var coursesId = restoreIds[i].getAttribute('data-bs-rs')
+         formRestore.action = "/list/" + coursesId + "/restore" + "/?_method=PATCH"
+         formRestore.submit()
+    })
+}
+
+</script>

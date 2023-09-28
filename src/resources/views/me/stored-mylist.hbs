@@ -1,0 +1,95 @@
+<a href="/me/trash">Các bản nhạc bạn đã xoá</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Tên bài hát</th>
+      <th scope="col">Mô tả</th>
+      <th scope="col">Thời gian</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {{#each course}}
+      <tr>
+        <th scope="row">{{sum @index 1}}</th>
+        <td>{{this.name}}</td>
+        <td>{{this.descript}}</td>
+        <td>{{this.createdAt}}</td>
+        <td>
+          <a
+            style="text-decoration: none;"
+            href="/me/{{this._id}}/edit"
+          >Sửa</a>
+        </td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-id={{this._id}}
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >Xoá</button>
+        </td>
+
+      </tr>
+    {{/each}}
+
+  </tbody>
+</table>
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Bạn đang xoá</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xoá bản nhạc này không ?
+      </div>
+      <div class="modal-footer">
+        <button id='btn-delete' type="button" class="btn btn-danger">Xoá</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >Huỷ</button>
+      </div>
+    </div>
+  </div>
+</div>
+<form name="form-delete" method="post"></form>
+
+<script>
+  var exampleModal = document.getElementById('exampleModal') 
+  var recipient
+  var formDelete = document.forms['form-delete']
+  
+  exampleModal.addEventListener('show.bs.modal', function (event) { 
+  var button = event.relatedTarget 
+  recipient =button.getAttribute('data-bs-id') })
+
+  const btnDelete = document.getElementById('btn-delete')
+  btnDelete.onclick = function(){
+    formDelete.action = '/me/' + recipient + '?_method=DELETE'
+    formDelete.submit();
+  }
+
+
+</script>

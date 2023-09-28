@@ -1,0 +1,15 @@
+<p>Xin Chào {{user}}</p>
+<div class="d-flex justify-content-around" >
+  {{#each course}}
+
+    <div class="card p-2"  style="width: 18rem;">
+      <img src={{this.image}} class="card-img-top" alt="..." />
+      <div class="card-body">
+        <a href="/detail/{{this._id}}" class="card-title">{{this.name}}</a>
+        <p class="card-text">{{this.descript}}</p>
+        <a href="/detail/{{this._id}}" class="btn btn-primary container-fluid">Play</a>
+      </div>
+    </div>
+
+  {{/each}}
+</div>
